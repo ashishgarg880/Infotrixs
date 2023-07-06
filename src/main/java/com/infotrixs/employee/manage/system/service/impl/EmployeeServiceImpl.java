@@ -29,18 +29,31 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return list;
 	}
 	
-	public Employee addEmployee(Employee employee) {
+	public String addEmployee(Employee employee) {
+		List<Employee> list = new ArrayList(); 
+		list = this.employeeRepository.findAll();
+		list = list.stream().filter(n -> n.getEmpNo() == employee.getEmpNo()).collect(Collectors.toList());
+		if(list.size() > 0) {
+			return "Data is Exist";
+		}
 		employeeRepository.save(employee);
-		return employee;
+		return "Complete Save";
 	}
 	
-	public Employee putEmployee(int id,Employee employee) {
+	public String putEmployee(int id,Employee employee) {
 		employeeRepository.save(employee);
-		return employee;
+		return "Complete Save";
 	}
 	
-	public void delEmployee(int id) {
-		employeeRepository.deleteById(id);
+	public String delEmployee(int id) {
+		List<Employee> list = new ArrayList(); 
+		list = this.employeeRepository.findAll();
+		list = list.stream().filter(n -> n.getEmpNo() == id).collect(Collectors.toList());
+		if(list.size() > 0) {
+			employeeRepository.deleteById(id);
+			return "Deleted Data";
+		}
+		return  "Data is not exist";
 	}
 	
 	public String addManaging(Employee employee) {

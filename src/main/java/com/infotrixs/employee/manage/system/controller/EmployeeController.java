@@ -3,12 +3,15 @@ package com.infotrixs.employee.manage.system.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.infotrixs.employee.manage.system.entities.Department;
@@ -17,7 +20,10 @@ import com.infotrixs.employee.manage.system.entities.Managing;
 import com.infotrixs.employee.manage.system.service.DepartmentService;
 import com.infotrixs.employee.manage.system.service.EmployeeService;
 
+@Component
 @RestController
+@RequestMapping("infotrixs/")
+@Repository
 public class EmployeeController {
 	
 	@Autowired
@@ -37,12 +43,12 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("employee")
-	public Employee addEmplyee(@RequestBody Employee employee) {
+	public String addEmplyee(@RequestBody Employee employee) {
 		return this.employeeDao.addEmployee(employee);
 	}
 	
 	@PutMapping("employee/{empId}")
-	public Employee putEmployee(@PathVariable int empId, @RequestBody Employee employee) {
+	public String putEmployee(@PathVariable int empId, @RequestBody Employee employee) {
 		return this.employeeDao.putEmployee(empId, employee);
 	}
 	@DeleteMapping("employee/{empId}")

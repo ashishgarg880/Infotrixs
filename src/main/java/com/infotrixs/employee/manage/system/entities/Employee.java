@@ -29,6 +29,8 @@ public class Employee {
 	private String empEmail;
 	@Column(name = "emp_dob")
 	private String empDob;
+//	@OneToOne
+//	private Address address;
 	
 	public Employee() {
 		super();

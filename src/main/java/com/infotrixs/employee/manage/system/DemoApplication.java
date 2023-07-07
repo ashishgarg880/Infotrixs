@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infotrixs.employee.manage.system.dao.EmployeeDao;
 import com.infotrixs.employee.manage.system.entities.Department;
 import com.infotrixs.employee.manage.system.entities.Employee;
+import com.infotrixs.employee.manage.system.entities.Managing;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
@@ -40,6 +41,10 @@ public class DemoApplication implements CommandLineRunner {
 		return "1. All Employee\n\n 2.User By Id ";
 	}
 	
+	public static String managingDepartment() {
+		return "1. Show All Managing Staff\n\n2. Add Manager\n\n3. Delete Manging ";
+	}
+	
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println(" <<<<<<      Employee Management System  >>>>>>>  ");
@@ -51,6 +56,7 @@ public class DemoApplication implements CommandLineRunner {
 		JSONParser jsonParser = new JSONParser();
 		Employee employee = new Employee();
 		Department department = new Department();
+		Managing managing = new Managing(); 
 		switch(t) {
 			case 1:
 				try {
@@ -121,7 +127,40 @@ public class DemoApplication implements CommandLineRunner {
 							case 2:
 								str = sc.next();
 								System.out.println(this.employeeDao.getDepartEmployee(str));
+								break;
+							
 							default:
+								break;
+						}
+						break;
+					case 3:
+						System.out.println("Enter Department Id");
+						str = sc.next();
+						System.out.println(this.employeeDao.deleteDepart(str));
+						break;
+					case 4:
+						try {
+							FileReader fileRea = new FileReader("D:\\Java\\InfoTrixs\\infotrixs\\src\\main\\resources\\managing.json");
+							Object object = jsonParser.parse(fileRea);
+							ObjectMapper objectMapper = new ObjectMapper();
+							managing = (Managing) objectMapper.convertValue(object, Managing.class);
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+						System.out.println(managingDepartment());
+						System.out.println("Enter the which part you use?");
+						n1 = sc.nextInt();
+						switch(n1) {
+							case 1:
+								System.out.println(this.employeeDao.getManagingEmployee());
+								break;
+							case 2: 
+								System.out.println(this.employeeDao.addManagingEmployee(managing));
+								break;
+							default:
+								System.out.println("Enter the Managing Id: ");
+								n1 = sc.nextInt();
+								System.out.println(this.employeeDao.deleteManagingEmployee(n1));
 								break;
 						}
 						break;
